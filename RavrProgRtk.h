@@ -72,6 +72,8 @@ public:
 	bool ign;
 	const char *devname;
 
+	//for lack of better solution store pointers here....
+	RComboBox *ProgrammerCombo;
 	RComboBox *InterfaceCombo;
 	RComboBox *DeviceCombo;
 	RComboBox *PClockCombo;
@@ -79,6 +81,10 @@ public:
 	RComboBox *PortCombo;
 
 	RButton *ConnectButton;
+	RButton *ApplyEButton;
+	RButton *ApplyPButton;
+	RButton *RefreshButton;
+	RButton *RefreshAVRButton;
 
 	RContainer *fusebox;
 	RHexBox *fuseedit;

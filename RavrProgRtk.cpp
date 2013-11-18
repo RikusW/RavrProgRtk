@@ -230,30 +230,31 @@ void RProgApp::Connect()
 			bAuto = false;
 		}
 		progifc = 0;
-/*
-		ui.ProgrammerCombo->setEnabled(true);
-		ui.InterfaceCombo->setEnabled(true);
-		ui.PClockCombo->setItemText(0,"Default");
-		ui.pushButton_ApplyP->setEnabled(false);
-		ui.EClockCombo->setItemText(0,"Default");
-		ui.pushButton_ApplyE->setEnabled(false);
-		ui.PortCombo->setEnabled(true);
-		ui.pushButton_Refresh->setEnabled(true);*/
+
+		ProgrammerCombo->Enable();
+		InterfaceCombo->Enable();
+//		PClockCombo->ItemText(0,"Default");
+		ApplyPButton->Disable();
+//		EClockCombo->ItemText(0,"Default");
+		ApplyEButton->Disable();
+		PortCombo->Enable();
+		RefreshButton->Enable();
+		RefreshAVRButton->Disable();
 		ConnectButton->SetText("Connect");
 
-/*		ui.SigEdit->setText("");
-		ui.SerialEdit->setText("");
-		ui.OsccalCombo->clear();
-		ui.pushButton_Refresh_AVR->setEnabled(false);
-		ui.lineEdit_Fuses->setText("");
-		ui.DeviceCombo->setEnabled(true);*/
+/*		SigEdit->Text("");
+		SerialEdit->Text("");
+		OsccalCombo->clear();
+		pushButton_Refresh_AVR->Disable();
+		lineEdit_Fuses->Text("");*/
+		DeviceCombo->Enable();
 	}else{
 		if(!progif) {
 			puts("RavrProgQt::Connect progif == 0");
 			return;
 		}
-//		QString n,s = ui.PortCombo->currentText();
-//		QString n,s = ui.PortCombo->currentText();
+//		QString n,s = PortCombo->currentText();
+//		QString n,s = PortCombo->currentText();
 //		char c[300];
 //		strcpy(c,s.toAscii().constData());
 //		printf("Connecting to ->%s\n",c);
@@ -263,17 +264,17 @@ void RProgApp::Connect()
 			progifc = progif;
 			puts("connect OK");
 			ConnectButton->SetText("Disconnect");
-/*			ui.ProgrammerCombo->setEnabled(false);
-			ui.InterfaceCombo->setEnabled(false);
-			ui.pushButton_ApplyP->setEnabled(true);
-			ui.pushButton_ApplyE->setEnabled(true);
-			ui.PortCombo->setEnabled(false);
-			ui.pushButton_Refresh->setEnabled(false);
-			ui.pushButton_Refresh_AVR->setEnabled(true);
-			ui.DeviceCombo->setEnabled(false);
+			ProgrammerCombo->Disable();
+			InterfaceCombo->Disable();
+			ApplyPButton->Enable();
+			ApplyEButton->Enable();
+			PortCombo->Disable();
+			RefreshButton->Disable();
+			RefreshAVRButton->Enable();
+			DeviceCombo->Disable();
 
 			ApplyP();
-			ApplyE();*/
+			ApplyE();
 			RefreshAVR();
 		}else{
 			puts("connect fail");
@@ -916,6 +917,7 @@ void RProgApp::Setup()
 	c->Connect("Si_IndexChanged(int,void*)",this,"ProgrammerChanged(int,void*)");
 	c->SetAlignment(AL_STRETCHH);
 	RComboBox *cb = c;
+	ProgrammerCombo = c;
 
 
 	l = new RLabel(rt); l->SetText("Select Interface:"); rt->SetPos(0,y,2);
@@ -947,6 +949,8 @@ void RProgApp::Setup()
 	PClockCombo = c;
 	b = new RButton(rt); b->SetText("Apply"); rt->SetPos(4,y++);
 	b->Connect("Si_Clicked(int)",this,"ApplyP()");
+	ApplyPButton = b;
+	b->Disable();
 
 
 	l = new RLabel(rt); l->SetText("Clock Generator:"); rt->SetPos(0,y,2);
@@ -960,6 +964,8 @@ void RProgApp::Setup()
 	EClockCombo = c;
 	b = new RButton(rt); b->SetText("Apply"); rt->SetPos(4,y++);
 	b->Connect("Si_Clicked(int)",this,"ApplyE()");
+	ApplyEButton = b;
+	b->Disable();
 
 
 	l = new RLabel(rt); l->SetText("Select Port:"); rt->SetPos(0,y,2);
@@ -986,6 +992,7 @@ void RProgApp::Setup()
 #endif*/
 	b = new RButton(rt); b->SetText("Refresh"); rt->SetPos(4,y++);
 	b->Connect("Si_Clicked(int)",this,"Refresh()");
+	RefreshButton = b;
 
 
 	b = new RButton(rt); b->SetText("Connect"); rt->SetPos(0,y++,5);
@@ -1028,6 +1035,8 @@ void RProgApp::Setup()
 	c->AddItem("osccal 2");
 	b = new RButton(rt); b->SetText("Refresh"); rt->SetPos(4,y++);
 	b->Connect("Si_Clicked(int)",this,"RefreshAVR()");
+	RefreshAVRButton = b;
+	b->Disable();
 
 
 	b = new RButton(rt); b->SetText("Spacer1"); b->Sl_Hide(); rt->SetPos(0,y);
