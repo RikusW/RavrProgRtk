@@ -55,7 +55,7 @@ int RMain()
 	x = p->GetNode("STK500/IspEnterProgMode/timeout");
 	if(x) {
 		s = x->line;
-		t.Split(s,'=');
+		t.SplitL(s,'=');
 		printf("--- %s --- %s ---\n\n",t.GetStr(),s.GetStr());
 	}else{
 		printf("x=0\n");
