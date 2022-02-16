@@ -1,6 +1,6 @@
 // vim:ts=4 sts=0 sw=4
 
-#include "../Rtk/RtkAll.h"
+#include "../Rtk-gui/RtkAll.h"
 #include "../RavrProg/RavrProg.h"
 
 class RProgApp : public RApp
