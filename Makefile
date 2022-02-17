@@ -1,8 +1,5 @@
 
-FLAGS = -DXLIB -Wall -g -I../
-#-fpermissive 
-#-Wl,-rpath,/home/rikus/Programming/Rtk
-#LD_LIBRARY_PATH
+CXXFLAGS += -DXLIB -Wall -g -lRtk-base -lRtk-gui -I../
 
 all: RavrProgRtk
 
@@ -12,17 +9,21 @@ clean:
 	rm -fv RavrProgRtk RavrProgRtk_sisl.cpp cfg
 
 #=========================================================#
+#Keep Rtk-parse output
+.PRECIOUS: %_sisl.cpp
 
-cfg: cfg.cpp ../Rtk-gui/libRtk-gui.so
-	g++ $(FLAGS) -o cfg cfg.cpp -lRtk-gui
+%_sisl.cpp: %.h
+	../Rtk-gui/Rtk-parse $< > $@
 
 #=========================================================#
 
-RavrProgRtk_sisl.cpp: RavrProgRtk.h ../Rtk-gui/parse
-	../Rtk-gui/parse RavrProgRtk.h > RavrProgRtk_sisl.cpp
+cfg: cfg.cpp
+	g++ -o $@ $^ $(CXXFLAGS)
 
-RavrProgRtk: RavrProgRtk.h RavrProgRtk.cpp RavrProgRtk_sisl.cpp ../Rtk-gui/libRtk-gui.so ../RavrProg/libRavrProg.so
-	g++ -o RavrProgRtk RavrProgRtk.cpp RavrProgRtk_sisl.cpp -lRtk-base -lRtk-gui -lRavrProg $(FLAGS)
+#=========================================================#
+
+RavrProgRtk: RavrProgRtk.o RavrProgRtk_sisl.o
+	g++ -o $@ $^ $(CXXFLAGS) -lRavrProg
 
 #=========================================================#
 
