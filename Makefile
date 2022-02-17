@@ -13,7 +13,7 @@ clean:
 .PRECIOUS: %_sisl.cpp
 
 %_sisl.cpp: %.h
-	../Rtk-gui/Rtk-parse $< > $@
+	Rtk-parse $< > $@
 
 #=========================================================#
 
